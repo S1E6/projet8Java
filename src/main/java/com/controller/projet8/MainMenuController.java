@@ -2,23 +2,14 @@ package com.controller.projet8;
 import com.model.projet8.Affectation;
 import com.model.projet8.Employe;
 import com.model.projet8.Lieu;
-import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-
 import javafx.scene.control.*;
-
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.awt.event.MouseEvent;
 import java.io.IOException;
-
 import java.time.LocalDate;
 import java.util.List;
-
 import com.view.projet8.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -50,6 +41,9 @@ public class MainMenuController extends FormAddAffectationController{
     public TextField txtSearchLieu;
     public DatePicker dateDebut;
     public DatePicker dateFin;
+    public CheckBox employeNonAffect;
+    public Button btnOpenFormAddEmploye;
+    private Boolean boolAffect = false;
 
     // Employe
     public void setTableEmploye(String nomOrPrenoms) {
@@ -62,14 +56,14 @@ public class MainMenuController extends FormAddAffectationController{
         lieuColumn.setCellValueFactory(new PropertyValueFactory<>("lieu"));
         Employe employe = new Employe();
         List<Employe> employes;
-
         if (nomOrPrenoms == null || nomOrPrenoms.isEmpty()) {
             employes = employe.getAllEmployes();
         } else {
             employes = employe.getOneEmploye(nomOrPrenoms);
         }
-
+        if (boolAffect) employes = employe.getAllAffectationNoAffected();
         tableEmploye.getItems().setAll(employes);
+
     }
 
     public void setTableLieu(String design){
@@ -101,7 +95,6 @@ public class MainMenuController extends FormAddAffectationController{
         } else {
             affectations = affectation.getOneAffectationTwoDate(debut,fin);
         }
-
         tableAffectation.getItems().setAll(affectations);
 
     }
@@ -109,12 +102,8 @@ public class MainMenuController extends FormAddAffectationController{
         setTableEmploye(txtSearchEmploye.getText());
         setTableLieu(txtSearchLieu.getText());
         setTableAffectation(dateDebut.getValue(),dateFin.getValue());
-        txtSearchEmploye.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchEmploye(newValue);
-        });
-        txtSearchLieu.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchLieu(newValue);
-        });
+        txtSearchEmploye.textProperty().addListener((observable, oldValue, newValue) -> searchEmploye(newValue));
+        txtSearchLieu.textProperty().addListener((observable, oldValue, newValue) -> searchLieu(newValue));
     }
     public void openFormAddEmploye(ActionEvent actionEvent) throws IOException {
         Stage stage;
@@ -158,7 +147,6 @@ public class MainMenuController extends FormAddAffectationController{
                     Employe employe = new Employe();
                     employe.delete(selectedEmploye.getNumEmp());
                     setTableEmploye(txtSearchEmploye.getText());
-                } else {
                 }
             });
         }
@@ -167,15 +155,17 @@ public class MainMenuController extends FormAddAffectationController{
         }
     }
 
-    public void openFormDeleteEmploye(ActionEvent actionEvent) {
+    public void openFormDeleteEmploye() {
         showConfirmationDialogEmploye();
     }
-
-
+    public void employeNoAffected() {
+        this.boolAffect = ! this.boolAffect;
+        setTableEmploye(null);
+    }
 
     //Lieu
     public void openFormAddLieu(ActionEvent actionEvent) throws IOException {
-        Stage stage = null;
+        Stage stage;
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("FormAddLieu.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 943.0, 698.0);
         stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -186,7 +176,7 @@ public class MainMenuController extends FormAddAffectationController{
     public void openFormUpdateLieu(ActionEvent actionEvent) throws IOException {
         Lieu selectedLieu = tableLieu.getSelectionModel().getSelectedItem();
         if(selectedLieu != null) {
-            Stage stage = null;
+            Stage stage;
             FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("FormUpdateLieu.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 943.0, 698.0);
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -220,7 +210,6 @@ public class MainMenuController extends FormAddAffectationController{
                     else {
                         showAlert(Alert.AlertType.ERROR, "Operation echoué", "Vous ne pouvez pas supprimer");
                     }
-                } else {
                 }
             });
         }
@@ -228,7 +217,7 @@ public class MainMenuController extends FormAddAffectationController{
             showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez selectioner un lieu");
         }
     }
-    public void openFormDeleteLieu(ActionEvent actionEvent) {
+    public void openFormDeleteLieu() {
         showConfirmationDialogLieu();
     }
 
@@ -269,7 +258,7 @@ public class MainMenuController extends FormAddAffectationController{
         }
     }
 
-    public void searchTwoDate(ActionEvent actionEvent) {
+    public void searchTwoDate() {
         setTableAffectation(dateDebut.getValue(),dateFin.getValue());
         dateDebut.setValue(null);
         dateFin.setValue(null);
@@ -286,7 +275,6 @@ public class MainMenuController extends FormAddAffectationController{
                     Affectation affectation = new Affectation();
                     affectation.delete(selectedAffectation.getNumAffect());
                     setTableAffectation(null,null);
-                } else {
                 }
             });
         }
@@ -295,7 +283,9 @@ public class MainMenuController extends FormAddAffectationController{
         }
     }
 
-    public void openFormDeleteAffectation(ActionEvent actionEvent) {
+    public void openFormDeleteAffectation() {
         showConfirmationDialogAffectation();
     }
+
+
 }

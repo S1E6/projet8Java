@@ -157,7 +157,30 @@ public class Employe {
                 employe.setMail(resultSet.getString("mail"));
                 employe.setPoste(resultSet.getString("poste"));
                 employe.setLieu(resultSet.getString("Design"));
+                employes.add(employe);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        return employes;
+    }
+    public List<Employe> getAllAffectationNoAffected() {
+        List<Employe> employes = new ArrayList<>();
+        try {
+            ConnectDB con = new ConnectDB();
+            Connection conn = con.connect();
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM  EMPLOYE LEFT OUTER JOIN AFFECTATION ON affectation.numemp = employe.numemp JOIN lieu ON lieu.idlieu = employe.lieu WHERE AFFECTATION.numaffect IS NULL ");
+            ResultSet resultSet = prpstmt.executeQuery();
+            while (resultSet.next()) {
+                Employe employe = new Employe();
+                employe.setNumEmp(resultSet.getString("numemp"));
+                employe.setCivilite(resultSet.getString("civilite"));
+                employe.setNom(resultSet.getString("nom"));
+                employe.setPrenoms(resultSet.getString("prenoms"));
+                employe.setMail(resultSet.getString("mail"));
+                employe.setPoste(resultSet.getString("poste"));
+                employe.setLieu(resultSet.getString("Design"));
                 employes.add(employe);
             }
         } catch (SQLException e) {

@@ -1,5 +1,4 @@
 package com.controller.projet8;
-import com.model.projet8.Affectation;
 import com.model.projet8.Employe;
 import com.model.projet8.Lieu;
 import com.view.projet8.MainApplication;
@@ -14,6 +13,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FormAddEmployeController {
 
@@ -75,7 +76,13 @@ public class FormAddEmployeController {
         }
         return c ;
     }
-    public void addEmploye(ActionEvent actionEvent) {
+    public boolean valideMail(String mail){
+        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(mail);
+        return matcher.matches();
+    }
+    public void addEmploye() {
         Employe employe = new Employe();
         if(isFormIncomplete()){
             showAlert(Alert.AlertType.ERROR, "Champs incomplets", "Veuillez remplir tous les champs requis.");
@@ -88,13 +95,17 @@ public class FormAddEmployeController {
             employe.setMail(this.txtMail.getText());
             employe.setPoste(this.txtPoste.getText());
             employe.setLieu(this.txtIdLieu);
-            employe.add();
-            showAlert(Alert.AlertType.INFORMATION, "Opération reussie", this.txtNom.getText() +" "+this.txtPrenoms.getText() + " Ajouté avec succés");
-            clearForm();
+            if(valideMail(employe.getMail())){
+                employe.add();
+                showAlert(Alert.AlertType.INFORMATION, "Opération reussie", this.txtNom.getText() +" "+this.txtPrenoms.getText() + " Ajouté avec succés");
+                clearForm();}
+            else {
+                showAlert(Alert.AlertType.ERROR, "Opération reussie", "Veuillez verifier votre mail.");
+            }
         }
     }
 
-    public void cancelAddEmploye(ActionEvent actionEvent) {
+    public void cancelAddEmploye() {
       clearForm();
     }
 

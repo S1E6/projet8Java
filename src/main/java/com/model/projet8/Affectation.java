@@ -69,14 +69,11 @@ public class Affectation {
         try {
             ConnectDB con = new ConnectDB();
             Connection conn = con.connect();
-            PreparedStatement prpStmt = conn.prepareStatement("UPDATE AFFECTATION SET  numaffect=?, numemp=?, ancienlieu=?, nouveaulieu=?, dateaffec=?, datepriseservice=? WHERE numaffect=? ");
-            prpStmt.setString(1,this.numAffect);
-            prpStmt.setString(2,this.numEmp);
-            prpStmt.setString(3,this.ancienLieu);
-            prpStmt.setString(4,this.nouveauLieu);
-            prpStmt.setDate(5, java.sql.Date.valueOf(this.dateAffect));
-            prpStmt.setDate(6, Date.valueOf(this.priseService));
-            prpStmt.setString(7,id);
+            PreparedStatement prpStmt = conn.prepareStatement("UPDATE AFFECTATION SET nouveaulieu=?, dateaffec=?, datepriseservice=? WHERE numaffect=? ");
+            prpStmt.setString(1,this.nouveauLieu);
+            prpStmt.setDate(2, java.sql.Date.valueOf(this.dateAffect));
+            prpStmt.setDate(3, Date.valueOf(this.priseService));
+            prpStmt.setString(4,id);
             prpStmt.executeUpdate();
             System.out.println(id  + " modified with success");
             prpStmt.close();
@@ -127,35 +124,8 @@ public class Affectation {
 
         return affectations;
     }
-    public List<Affectation> getOneAffectation(String rch){
-        List<Affectation> affectations = new ArrayList<>();
-        try {
-            ConnectDB con = new ConnectDB();
-            Connection conn = con.connect();
-            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM EMPLOYE , AFFECTATION WHERE AFFECTATION.numemp=EMPLOYE.numemp AND (UPPER(nom) LIKE ? OR UPPER(prenoms) LIKE ? OR LOWER(nom) LIKE ? OR LOWER(prenoms) LIKE ? )");
-            prpstmt.setString(1,"%"+rch+"%");
-            prpstmt.setString(2,"%"+rch+"%");
-            prpstmt.setString(3,"%"+rch+"%");
-            prpstmt.setString(4,"%"+rch+"%");
-            ResultSet resultSet = prpstmt.executeQuery();
-            while (resultSet.next()) {
-                Affectation affectation = new Affectation();
-                affectation.setNumAffect(resultSet.getString("numaffect"));
-                affectation.setNumEmp(resultSet.getString("numemp"));
-                affectation.setNom(resultSet.getString("nom"));
-                affectation.setPrenoms(resultSet.getString("prenoms"));
-                affectation.setAncienLieu(resultSet.getString("ancienlieu"));
-                affectation.setNouveauLieu(resultSet.getString("nouveaulieu"));
-                affectation.setDateAffect(resultSet.getDate("dateaffec").toLocalDate());
-                affectation.setPriseService(resultSet.getDate("datepriseservice").toLocalDate());
-                affectations.add(affectation);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        return affectations;
-    }
+
     public List<Affectation> getOneAffectationTwoDate(LocalDate debut,LocalDate fin){
         List<Affectation> affectations = new ArrayList<>();
         try {
@@ -183,6 +153,7 @@ public class Affectation {
 
         return affectations;
     }
+
     public String lastRecord(){
         String lastRecord = null;
         try {

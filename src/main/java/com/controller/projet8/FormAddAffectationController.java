@@ -33,17 +33,11 @@ public class FormAddAffectationController {
     public void initialize() {
         Lieu lieu = new Lieu();
         List<String> lieux = lieu.showAllDesignLieu();
-        Employe employe = new Employe();
-        List<String> employes = employe.showNumEmploye();
         this.txtNouveauLieu.getItems().addAll(lieux);
 
     }
-    public void clearForm(){
-        this.txtNouveauLieu.getSelectionModel().clearSelection();
-        this.dateAffectation.setValue(null);
-        this.datePriseService.setValue(null);
-    }
-    private boolean isFormIncomplete() {
+
+    boolean isFormIncomplete() {
         return txtAncienLieu.getText().isEmpty() ||
                 txtNouveauLieu.getSelectionModel().isEmpty() ||
                 dateAffectation.getValue() == null ||
@@ -89,7 +83,7 @@ public class FormAddAffectationController {
             affectation.setNouveauLieu(this.txtIdNouveauLieu);
             affectation.setDateAffect(this.dateAffectation.getValue());
             affectation.setPriseService(this.datePriseService.getValue());
-            if(Objects.equals(affectation.getAncienLieu(), affectation.getNouveauLieu())){
+            if(Objects.equals(affectation.getAncienLieu(),this.txtNouveauLieu.getSelectionModel().getSelectedItem())){
                 showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez changer le nouveau lieu d' affectation");
             }
             else {
