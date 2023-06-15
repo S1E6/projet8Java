@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="698.0" prefWidth="943.0" xmlns="http://javafx.com/javafx/20.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.controller.projet8.MainMenuController">
+   <children>
+      <MenuBar layoutY="1.0" prefHeight="26.0" prefWidth="943.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <TabPane layoutY="27.0" prefHeight="670.0" prefWidth="943.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="EMPLOYE">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="951.0">
+                     <children>
+                        <TableView fx:id="tableEmploye" layoutX="6.0" layoutY="174.0" prefHeight="461.0" prefWidth="931.0">
+                          <columns>
+                            <TableColumn fx:id="numEmployeColumn" prefWidth="99.19997882843018" text="Num employe" />
+                            <TableColumn fx:id="civiliteColumn" prefWidth="58.4000244140625" text="Civilité" />
+                              <TableColumn fx:id="nomColumn" prefWidth="153.59999084472656" text="Nom" />
+                              <TableColumn fx:id="prenomsColumn" prefWidth="136.79998779296875" text="Prenoms" />
+                              <TableColumn fx:id="mailColumn" prefWidth="163.20001220703125" text="Mail" />
+                              <TableColumn fx:id="posteColumn" prefWidth="168.0" text="Poste" />
+                              <TableColumn fx:id="lieuColumn" prefWidth="155.9998779296875" text="Lieu" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="btnOpenFormAddEmploye" layoutX="34.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormAddEmploye" prefHeight="36.0" prefWidth="86.0" style="-fx-background-color: green;" text="AJOUTER" textFill="WHITE" />
+                        <Button fx:id="btnOpenFormUpdateEmploye" layoutX="257.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormUpdateEmploye" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: blue;" text="MODIFIER" textFill="WHITE" />
+                        <TextField fx:id="txtSearchEmploye" layoutX="34.0" layoutY="125.0" prefHeight="26.0" prefWidth="181.0" promptText="Nom ou prenoms" />
+                        <Button fx:id="btnOpenFormDeleteEmploye" layoutX="480.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormDeleteEmploye" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: RED;" text="SUPPRIMER" textFill="WHITE" />
+                        <Button fx:id="btnOpenFormAddAffectation" layoutX="689.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormAddAffectation" prefHeight="36.0" prefWidth="107.0" style="-fx-background-color: ORANGE;" text="AFFECTE" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="LIEU">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="951.0">
+                     <children>
+                        <TableView fx:id="tableLieu" layoutX="25.0" layoutY="174.0" prefHeight="462.0" prefWidth="875.0">
+                           <columns>
+                              <TableColumn fx:id="idlieuColumn" prefWidth="243.99999713897705" text="Identifiant lieu" />
+                              <TableColumn fx:id="designColumn" prefWidth="333.6000518798828" text="Désignation" />
+                              <TableColumn fx:id="provinceColumn" prefWidth="295.9999877929688" text="Province" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnOpenFormAddLieu" layoutX="34.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormAddLieu" prefHeight="36.0" prefWidth="86.0" style="-fx-background-color: green;" text="AJOUTER" textFill="WHITE" />
+                        <Button fx:id="btnOpenFormUpdateLieu" layoutX="257.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormUpdateLieu" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: blue;" text="MODIFIER" textFill="WHITE" />
+                        <TextField fx:id="txtSearchLieu" layoutX="34.0" layoutY="125.0" prefHeight="26.0" prefWidth="181.0" promptText="Désignation" />
+                        <Button fx:id="btnOpenFormDeleteLieu" layoutX="480.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormDeleteLieu" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: red;" text="SUPPRIMER" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="AFFECTATION">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="627.0" prefWidth="951.0">
+                     <children>
+                        <TableView fx:id="tableAffectation" layoutX="6.0" layoutY="174.0" prefHeight="462.0" prefWidth="922.0">
+                           <columns>
+                              <TableColumn fx:id="numAffectColumn" prefWidth="93.60000324249268" text="Num affectation" />
+                              <TableColumn fx:id="numEmpAffectColumn" prefWidth="92.0" text="Num Employe" />
+                              <TableColumn fx:id="nomAffectColumn" prefWidth="144.79994201660156" text="Nom" />
+                              <TableColumn fx:id="prenomsAffectColumn" prefWidth="112.79998779296875" text="Prenoms" />
+                              <TableColumn fx:id="AncienLieuColumn" prefWidth="124.0" text="Ancien lieu" />
+                              <TableColumn fx:id="NouveauLieuColumn" prefWidth="110.40008544921875" text="Nouveau lieu" />
+                              <TableColumn fx:id="DateAffectColumn" prefWidth="112.0" text="Date affectation" />
+                              <TableColumn fx:id="DatePriseServColumn" prefWidth="112.79998779296875" text="Date prise en service" />
+                           </columns>
+                        </TableView>
+                        <Button fx:id="btnOpenFormUpdateAffectation" layoutX="36.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormUpdateAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: blue;" text="MODIFIER" textFill="WHITE" />
+                         <Label layoutX="34.0" layoutY="108.0" prefHeight="18.0" prefWidth="98.0" text="Date début" />
+                        <Label layoutX="140.0" layoutY="108.0" prefHeight="18.0" prefWidth="98.0" text="Date fin" />
+                        <Button fx:id="btnSearchTwoDateAffectation" layoutX="259.0" layoutY="121.0" mnemonicParsing="false" onAction="#searchTwoDate" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: orange;" text="RECHERCHE" textFill="WHITE" />
+                        <DatePicker id="dateDebut" fx:id="dateDebut" layoutX="34.0" layoutY="127.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: orange;" />
+                        <DatePicker id="dateFin" fx:id="dateFin" layoutX="146.0" layoutY="127.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: orange;" />
+                        <Button fx:id="btnOpenFormDeleteAffectation" layoutX="259.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormDeleteAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: RED;" text="SUPPRIMER" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
