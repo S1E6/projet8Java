@@ -43,6 +43,7 @@ public class MainMenuController extends FormAddAffectationController{
     public DatePicker dateFin;
     public CheckBox employeNonAffect;
     public Button btnOpenFormAddEmploye;
+    public TextField historique;
     private Boolean boolAffect = false;
 
     // Employe
@@ -79,7 +80,7 @@ public class MainMenuController extends FormAddAffectationController{
         }
         tableLieu.getItems().setAll(lieux);
     }
-    public void setTableAffectation(LocalDate debut , LocalDate fin){
+    public void setTableAffectation(LocalDate debut , LocalDate fin, String rch){
         numAffectColumn.setCellValueFactory(new PropertyValueFactory<>("numAffect"));
         numEmpAffectColumn.setCellValueFactory(new PropertyValueFactory<>("numEmp"));
         nomAffectColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
@@ -90,9 +91,21 @@ public class MainMenuController extends FormAddAffectationController{
         DatePriseServColumn.setCellValueFactory(new PropertyValueFactory<>("priseService"));
         Affectation affectation = new Affectation();
         List<Affectation> affectations ;
-        if (debut == null && fin == null ) {
+        if (debut == null && fin == null && rch == null) {
             affectations = affectation.getAllAffectation();
-        } else {
+        }
+        else if(debut != null && fin == null && rch == null){
+            LocalDate currentDate = LocalDate.now();
+            affectations = affectation.getOneAffectationTwoDate(debut,currentDate);
+        }
+        else if(debut == null && rch == null){
+            LocalDate oldDate = LocalDate.of(1940,1,1);
+            affectations = affectation.getOneAffectationTwoDate(oldDate,fin);
+        }
+        else if(debut == null && fin == null){
+            affectations = affectation.getOneAffectation(rch);
+        }
+        else {
             affectations = affectation.getOneAffectationTwoDate(debut,fin);
         }
         tableAffectation.getItems().setAll(affectations);
@@ -101,9 +114,10 @@ public class MainMenuController extends FormAddAffectationController{
     public void initialize() {
         setTableEmploye(txtSearchEmploye.getText());
         setTableLieu(txtSearchLieu.getText());
-        setTableAffectation(dateDebut.getValue(),dateFin.getValue());
+        setTableAffectation(dateDebut.getValue(),dateFin.getValue(),historique.getText());
         txtSearchEmploye.textProperty().addListener((observable, oldValue, newValue) -> searchEmploye(newValue));
         txtSearchLieu.textProperty().addListener((observable, oldValue, newValue) -> searchLieu(newValue));
+        historique.textProperty().addListener((observable, oldValue, newValue) -> setTableAffectation(null, null , newValue));
     }
     public void openFormAddEmploye(ActionEvent actionEvent) throws IOException {
         Stage stage;
@@ -138,7 +152,7 @@ public class MainMenuController extends FormAddAffectationController{
     private void showConfirmationDialogEmploye() {
         Employe selectedEmploye = tableEmploye.getSelectionModel().getSelectedItem();
         if(selectedEmploye != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Confirmation Dialogue");
             alert.setHeaderText("Êtes-vous sûr de vouloir supprimer " + selectedEmploye.getNom() + "?");
             alert.setContentText("Cliquez sur OK pour confirmer.");
@@ -147,6 +161,7 @@ public class MainMenuController extends FormAddAffectationController{
                     Employe employe = new Employe();
                     employe.delete(selectedEmploye.getNumEmp());
                     setTableEmploye(txtSearchEmploye.getText());
+                    setTableAffectation(null,null,null);
                 }
             });
         }
@@ -196,7 +211,7 @@ public class MainMenuController extends FormAddAffectationController{
     private void showConfirmationDialogLieu() {
         Lieu selectedLieu = tableLieu.getSelectionModel().getSelectedItem();
         if(selectedLieu != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Confirmation Dialogue");
             alert.setHeaderText("Êtes-vous sûr de vouloir supprimer " + selectedLieu.getDesign()+ "?");
             alert.setContentText("Cliquez sur OK pour confirmer.");
@@ -259,14 +274,12 @@ public class MainMenuController extends FormAddAffectationController{
     }
 
     public void searchTwoDate() {
-        setTableAffectation(dateDebut.getValue(),dateFin.getValue());
-        dateDebut.setValue(null);
-        dateFin.setValue(null);
+        setTableAffectation(dateDebut.getValue(),dateFin.getValue(),null);
     }
     private void showConfirmationDialogAffectation() {
         Affectation selectedAffectation = tableAffectation.getSelectionModel().getSelectedItem();
         if(selectedAffectation != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Confirmation Dialogue");
             alert.setHeaderText("Êtes-vous sûr de vouloir supprimer " + selectedAffectation.getNumAffect()+ "?");
             alert.setContentText("Cliquez sur OK pour confirmer.");
@@ -274,7 +287,7 @@ public class MainMenuController extends FormAddAffectationController{
                 if (response == ButtonType.OK) {
                     Affectation affectation = new Affectation();
                     affectation.delete(selectedAffectation.getNumAffect());
-                    setTableAffectation(null,null);
+                    setTableAffectation(null,null,null);
                 }
             });
         }

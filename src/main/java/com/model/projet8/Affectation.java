@@ -124,14 +124,42 @@ public class Affectation {
 
         return affectations;
     }
+    public List<Affectation> getOneAffectation(String rch) {
+        List<Affectation> affectations = new ArrayList<>();
+        try {
+            ConnectDB con = new ConnectDB();
+            Connection conn = con.connect();
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM AFFECTATION, EMPLOYE, LIEU  WHERE AFFECTATION.numemp=EMPLOYE.numemp AND LIEU.idlieu = AFFECTATION.nouveaulieu AND(UPPER(nom) LIKE ? OR UPPER(prenoms) LIKE ? OR LOWER(nom) LIKE ? OR LOWER(prenoms) LIKE ? OR prenoms LIKE ?)");
+            prpstmt.setString(1,"%"+rch+"%");
+            prpstmt.setString(2,"%"+rch+"%");
+            prpstmt.setString(3,"%"+rch+"%");
+            prpstmt.setString(4,"%"+rch+"%");
+            prpstmt.setString(5,"%"+rch+"%");
+            ResultSet resultSet = prpstmt.executeQuery();
+            while (resultSet.next()) {
+                Affectation affectation = new Affectation();
+                affectation.setNumAffect(resultSet.getString("numaffect"));
+                affectation.setNumEmp(resultSet.getString("numemp"));
+                affectation.setNom(resultSet.getString("nom"));
+                affectation.setPrenoms(resultSet.getString("prenoms"));
+                affectation.setAncienLieu(resultSet.getString("ancienlieu"));
+                affectation.setNouveauLieu(resultSet.getString("design"));
+                affectation.setDateAffect(resultSet.getDate("dateaffec").toLocalDate());
+                affectation.setPriseService(resultSet.getDate("datepriseservice").toLocalDate());
+                affectations.add(affectation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-
+        return affectations;
+    }
     public List<Affectation> getOneAffectationTwoDate(LocalDate debut,LocalDate fin){
         List<Affectation> affectations = new ArrayList<>();
         try {
             ConnectDB con = new ConnectDB();
             Connection conn = con.connect();
-            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM EMPLOYE , AFFECTATION WHERE AFFECTATION.numemp=EMPLOYE.numemp AND (dateaffec BETWEEN ? AND ?)");
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM EMPLOYE , AFFECTATION, LIEU WHERE AFFECTATION.numemp=EMPLOYE.numemp AND (dateaffec BETWEEN ? AND ?) AND LIEU.idlieu = AFFECTATION.nouveaulieu");
             prpstmt.setDate(1, Date.valueOf(debut));
             prpstmt.setDate(2, Date.valueOf(fin));
             ResultSet resultSet = prpstmt.executeQuery();
@@ -142,7 +170,7 @@ public class Affectation {
                 affectation.setNom(resultSet.getString("nom"));
                 affectation.setPrenoms(resultSet.getString("prenoms"));
                 affectation.setAncienLieu(resultSet.getString("ancienlieu"));
-                affectation.setNouveauLieu(resultSet.getString("nouveaulieu"));
+                affectation.setNouveauLieu(resultSet.getString("design"));
                 affectation.setDateAffect(resultSet.getDate("dateaffec").toLocalDate());
                 affectation.setPriseService(resultSet.getDate("datepriseservice").toLocalDate());
                 affectations.add(affectation);
@@ -150,7 +178,6 @@ public class Affectation {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return affectations;
     }
 

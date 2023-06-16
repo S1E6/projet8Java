@@ -51,8 +51,8 @@
                  <items>
                      <FXCollections fx:factory="observableArrayList">
                          <String fx:value="Mr" />
-                         <String fx:value="Mdm" />
-                         <String fx:value="Mle" />
+                         <String fx:value="Mme" />
+                         <String fx:value="Mlle" />
                      </FXCollections>
                  </items>
              </ComboBox>

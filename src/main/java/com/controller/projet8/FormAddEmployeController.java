@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 public class FormAddEmployeController {
 
@@ -76,12 +78,36 @@ public class FormAddEmployeController {
         }
         return c ;
     }
-    public boolean valideMail(String mail){
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        Matcher matcher = pattern.matcher(mail);
+    public static boolean isValidEmail(String email) {
+        boolean isValid = false;
+
+        try {
+            // Vérification de la syntaxe de l'adresse e-mail
+            InternetAddress internetAddress = new InternetAddress(email);
+            internetAddress.validate();
+
+            // Extraction du domaine de l'adresse e-mail
+            String domain = email.substring(email.lastIndexOf("@") + 1);
+
+            // Validation du domaine
+            isValid = isValidDomain(domain);
+        } catch (AddressException ex) {
+            // L'adresse e-mail est invalide
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private static boolean isValidDomain(String domain) {
+        // Vérification du domaine en utilisant une expression régulière
+        String domainRegex = "^(?=.{1,253}\\.?$)[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*\\.([a-zA-Z]{2,})$";
+        Pattern pattern = Pattern.compile(domainRegex);
+        Matcher matcher = pattern.matcher(domain);
+
         return matcher.matches();
     }
+
     public void addEmploye() {
         Employe employe = new Employe();
         if(isFormIncomplete()){
@@ -95,7 +121,7 @@ public class FormAddEmployeController {
             employe.setMail(this.txtMail.getText());
             employe.setPoste(this.txtPoste.getText());
             employe.setLieu(this.txtIdLieu);
-            if(valideMail(employe.getMail())){
+            if(isValidEmail(employe.getMail())){
                 employe.add();
                 showAlert(Alert.AlertType.INFORMATION, "Opération reussie", this.txtNom.getText() +" "+this.txtPrenoms.getText() + " Ajouté avec succés");
                 clearForm();}

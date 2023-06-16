@@ -68,7 +68,7 @@ public class FormUpdateEmployeController extends FormAddEmployeController{
         txtPoste.setText(employe.getPoste());
         txtLieu.getSelectionModel().select(employe.getLieu());
     }
-    public void updateEmploye(ActionEvent actionEvent) {
+    public void updateEmploye(ActionEvent actionEvent) throws IOException {
         Employe employe = new Employe();
         if(isFormIncomplete()){
             showAlert(Alert.AlertType.ERROR, "Champs incomplets", "Veuillez remplir tous les champs requis.");
@@ -83,7 +83,12 @@ public class FormUpdateEmployeController extends FormAddEmployeController{
             employe.setLieu(this.txtIdLieu);
             employe.edit(employe.getNumEmp());
             showAlert(Alert.AlertType.INFORMATION, "Opération reussie", this.txtNom.getText() +" "+this.txtPrenoms.getText() + " Modifié avec succés");
-
+            Stage stage ;
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("MainMenu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 943.0, 698.0);
+            stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
         }
     }
     public void getDesign(ActionEvent actionEvent) {

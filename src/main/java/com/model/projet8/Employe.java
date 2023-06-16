@@ -211,11 +211,12 @@ public class Employe {
         try {
             ConnectDB con = new ConnectDB();
             Connection conn = con.connect();
-            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM EMPLOYE,LIEU WHERE EMPLOYE.lieu=idlieu AND(UPPER(nom) LIKE ? OR UPPER(prenoms) LIKE ? OR LOWER(nom) LIKE ? OR LOWER(prenoms) LIKE ?) ");
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM EMPLOYE,LIEU WHERE EMPLOYE.lieu=idlieu AND(UPPER(nom) LIKE ? OR UPPER(prenoms) LIKE ? OR LOWER(nom) LIKE ? OR LOWER(prenoms) LIKE ? OR prenoms LIKE ?) ");
             prpstmt.setString(1,"%"+rch+"%");
             prpstmt.setString(2,"%"+rch+"%");
             prpstmt.setString(3,"%"+rch+"%");
             prpstmt.setString(4,"%"+rch+"%");
+            prpstmt.setString(5,"%"+rch+"%");
             ResultSet resultSet = prpstmt.executeQuery();
             while (resultSet.next()) {
                 Employe employe = new Employe();

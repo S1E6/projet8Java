@@ -23,7 +23,7 @@ public class FormUpdateLieuController extends FormAddLieuController {
         txtDesign.setText(lieu.getDesign());
         txtProvince.getSelectionModel().select(lieu.getProvince());
     }
-    public void updateLieu(ActionEvent actionEvent)  {
+    public void updateLieu(ActionEvent actionEvent) throws IOException {
         Lieu lieu = new Lieu();
         if(isFormEmpty()){
             showAlert(Alert.AlertType.ERROR, "Champs incomplets", "Veuillez remplir tous les champs requis.");
@@ -33,9 +33,14 @@ public class FormUpdateLieuController extends FormAddLieuController {
             lieu.setDesign(this.txtDesign.getText());
             lieu.setProvince(this.txtProvince.getSelectionModel().getSelectedItem());
             lieu.edit(lieu.getIdlieu());
-
             showAlert(Alert.AlertType.INFORMATION, "Opération reussie", this.txtDesign.getText() +" "+this.txtProvince.getSelectionModel().getSelectedItem() + " Modifié avec succés");
-            }
+            Stage stage ;
+            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("MainMenu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 943.0, 698.0);
+            stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 
     public void cancelUpdateLieu(ActionEvent actionEvent) throws IOException {
