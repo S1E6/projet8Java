@@ -1,5 +1,14 @@
 package com.controller.projet8;
-
+import java.time.LocalDate;
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import com.model.projet8.Affectation;
 import com.model.projet8.Employe;
 import com.model.projet8.Lieu;
@@ -71,6 +80,35 @@ public class FormAddAffectationController {
             }
         return c ;
     }
+    public void EnvoyeMail(String adresse, String newLieu, LocalDate dateAffect, LocalDate datePrise) {
+        String expediteur = "elyse.rafano1844@gmail.com";
+        String motDePasse = "Abomination.1844";
+        Properties props = new Properties();
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.user", expediteur);
+        props.put("mail.smtp.password", motDePasse);
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        Authenticator auth = new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(expediteur, motDePasse);
+            }
+        };
+        Session session = Session.getInstance(props, auth);
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(expediteur));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adresse));
+            message.setSubject("Affectation");
+            message.setText("Vous êtes affecté à " + newLieu + " le " + dateAffect + " " + datePrise);
+            Transport.send(message);
+            System.out.println("L'e-mail a été envoyé avec succès !");
+        } catch (MessagingException e) {
+            System.out.println("Erreur lors de l'envoi de l'e-mail : " + e.getMessage());
+        }
+    }
+
     public void addAffectation(ActionEvent actionEvent) throws IOException {
         Affectation affectation = new Affectation();
         if(isFormIncomplete()){
@@ -80,6 +118,7 @@ public class FormAddAffectationController {
             affectation.setNumAffect(lastRecord());
             affectation.setNumEmp(this.txtNumEmp.getText());
             affectation.setAncienLieu(this.txtAncienLieu.getText());
+            affectation.setMail(this.txtMail.getText());
             affectation.setNouveauLieu(this.txtIdNouveauLieu);
             affectation.setDateAffect(this.dateAffectation.getValue());
             affectation.setPriseService(this.datePriseService.getValue());
@@ -91,8 +130,10 @@ public class FormAddAffectationController {
                 employe.setLieu(affectation.getNouveauLieu());
                 employe.UpdateLieuOneElmpoye(affectation.getNumEmp());
                 affectation.add();
+                System.out.println(affectation.getMail());
+                EnvoyeMail(affectation.getMail(), this.txtNouveauLieu.getSelectionModel().getSelectedItem(),affectation.getDateAffect(),affectation.getPriseService());
                 showAlert(Alert.AlertType.INFORMATION, "Opération reussie", "L' employé " + this.txtNumEmp.getText() +" a été affecté a "+this.txtNouveauLieu.getSelectionModel().getSelectedItem());
-                Stage stage = null;
+                Stage stage ;
                 FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("MainMenu.fxml"));
                 Scene scene = new Scene(fxmlLoader.load(), 943.0, 698.0);
                 stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();

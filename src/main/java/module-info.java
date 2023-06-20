@@ -5,7 +5,7 @@ module com.example.projet8 {
     requires org.controlsfx.controls;
     requires java.sql;
     requires java.desktop;
-    requires java.mail;
+    requires javax.mail;
 
     opens com.view.projet8 to javafx.fxml;
     exports com.view.projet8;
