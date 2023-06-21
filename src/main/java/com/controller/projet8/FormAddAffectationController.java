@@ -82,7 +82,7 @@ public class FormAddAffectationController {
     }
     public void EnvoyeMail(String adresse, String newLieu, LocalDate dateAffect, LocalDate datePrise) {
         String expediteur = "elyse.rafano1844@gmail.com";
-        String motDePasse = "Abomination.1844";
+        String motDePasse = "zxulcjrbzzzicpla";
         Properties props = new Properties();
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -101,7 +101,7 @@ public class FormAddAffectationController {
             message.setFrom(new InternetAddress(expediteur));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adresse));
             message.setSubject("Affectation");
-            message.setText("Vous êtes affecté à " + newLieu + " le " + dateAffect + " " + datePrise);
+            message.setText("Vous êtes affecté à " + newLieu + " le " + dateAffect + " date prise de service: " + datePrise);
             Transport.send(message);
             System.out.println("L'e-mail a été envoyé avec succès !");
         } catch (MessagingException e) {
@@ -130,7 +130,6 @@ public class FormAddAffectationController {
                 employe.setLieu(affectation.getNouveauLieu());
                 employe.UpdateLieuOneElmpoye(affectation.getNumEmp());
                 affectation.add();
-                System.out.println(affectation.getMail());
                 EnvoyeMail(affectation.getMail(), this.txtNouveauLieu.getSelectionModel().getSelectedItem(),affectation.getDateAffect(),affectation.getPriseService());
                 showAlert(Alert.AlertType.INFORMATION, "Opération reussie", "L' employé " + this.txtNumEmp.getText() +" a été affecté a "+this.txtNouveauLieu.getSelectionModel().getSelectedItem());
                 Stage stage ;

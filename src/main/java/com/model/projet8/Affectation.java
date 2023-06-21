@@ -129,12 +129,13 @@ public class Affectation {
         try {
             ConnectDB con = new ConnectDB();
             Connection conn = con.connect();
-            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM AFFECTATION, EMPLOYE, LIEU  WHERE AFFECTATION.numemp=EMPLOYE.numemp AND LIEU.idlieu = AFFECTATION.nouveaulieu AND(UPPER(nom) LIKE ? OR UPPER(prenoms) LIKE ? OR LOWER(nom) LIKE ? OR LOWER(prenoms) LIKE ? OR prenoms LIKE ?)");
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT * FROM AFFECTATION, EMPLOYE, LIEU  WHERE AFFECTATION.numemp=EMPLOYE.numemp AND LIEU.idlieu = AFFECTATION.nouveaulieu AND(UPPER(nom) LIKE ? OR UPPER(prenoms) LIKE ? OR LOWER(nom) LIKE ? OR LOWER(prenoms) LIKE ? OR prenoms LIKE ? OR AFFECTATION.numemp LIKE ?)");
             prpstmt.setString(1,"%"+rch+"%");
             prpstmt.setString(2,"%"+rch+"%");
             prpstmt.setString(3,"%"+rch+"%");
             prpstmt.setString(4,"%"+rch+"%");
             prpstmt.setString(5,"%"+rch+"%");
+            prpstmt.setString(6,"%"+rch+"%");
             ResultSet resultSet = prpstmt.executeQuery();
             while (resultSet.next()) {
                 Affectation affectation = new Affectation();

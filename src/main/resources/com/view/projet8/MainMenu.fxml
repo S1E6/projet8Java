@@ -90,7 +90,7 @@
                         <DatePicker id="dateDebut" fx:id="dateDebut" layoutX="34.0" layoutY="127.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: orange;" />
                         <DatePicker id="dateFin" fx:id="dateFin" layoutX="146.0" layoutY="127.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: orange;" />
                         <Button fx:id="btnOpenFormDeleteAffectation" layoutX="259.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormDeleteAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: RED;" text="SUPPRIMER" textFill="WHITE" />
-                  <TextField fx:id="historique" layoutX="696.0" layoutY="142.0" prefHeight="26.0" prefWidth="219.0" promptText="Nom ou prenoms " />
+                  <TextField fx:id="historique" layoutX="696.0" layoutY="142.0" prefHeight="26.0" prefWidth="219.0" promptText=" " />
                   <Label layoutX="697.0" layoutY="124.0" prefHeight="18.0" prefWidth="178.0" text="Historique d' un employé" />
                     </children>
                 </AnchorPane>
