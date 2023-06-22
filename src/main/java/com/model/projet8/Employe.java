@@ -206,6 +206,40 @@ public class Employe {
 
         return mail;
     }
+    public static String getEmployeCivilite(String id){
+        String civilite=null;
+        try {
+            ConnectDB con = new ConnectDB();
+            Connection conn = con.connect();
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT civilite FROM EMPLOYE WHERE numemp = ?");
+            prpstmt.setString(1,id);
+            ResultSet resultSet = prpstmt.executeQuery();
+            while (resultSet.next()) {
+                civilite = resultSet.getString("civilite");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return civilite;
+    }
+    public static String getEmployePoste(String id){
+        String poste=null;
+        try {
+            ConnectDB con = new ConnectDB();
+            Connection conn = con.connect();
+            PreparedStatement prpstmt = conn.prepareStatement("SELECT poste FROM EMPLOYE WHERE numemp = ?");
+            prpstmt.setString(1,id);
+            ResultSet resultSet = prpstmt.executeQuery();
+            while (resultSet.next()) {
+                poste = resultSet.getString("poste");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return poste;
+    }
     public List<Employe> getOneEmploye(String rch){
         List<Employe> employes = new ArrayList<>();
         try {

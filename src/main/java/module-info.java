@@ -6,6 +6,7 @@ module com.example.projet8 {
     requires java.sql;
     requires java.desktop;
     requires javax.mail;
+    requires itextpdf;
 
     opens com.view.projet8 to javafx.fxml;
     exports com.view.projet8;

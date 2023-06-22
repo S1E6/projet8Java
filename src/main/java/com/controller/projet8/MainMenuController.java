@@ -13,6 +13,37 @@ import java.util.List;
 import com.view.projet8.MainApplication;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfDocument;
+import com.itextpdf.text.pdf.PdfWriter;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.ResourceBundle;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 
 
 public class MainMenuController extends FormAddAffectationController{
@@ -44,6 +75,10 @@ public class MainMenuController extends FormAddAffectationController{
     public CheckBox employeNonAffect;
     public Button btnOpenFormAddEmploye;
     public TextField historique;
+    public Button btnPDF;
+    public Button btnOpenFormDeleteAffectation;
+    public Button btnSearchTwoDateAffectation;
+    public Button btnOpenFormUpdateAffectation;
     private Boolean boolAffect = false;
 
     // Employe
@@ -269,7 +304,7 @@ public class MainMenuController extends FormAddAffectationController{
             tmp.getAffectEmploye(selectedAffecatation);
         }
         else {
-            showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez selectioner un employé");
+            showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez selectioner une afféctation");
         }
     }
 
@@ -292,7 +327,7 @@ public class MainMenuController extends FormAddAffectationController{
             });
         }
         else {
-            showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez selectioner un lieu");
+            showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez selectioner une afféctation");
         }
     }
 
@@ -301,4 +336,28 @@ public class MainMenuController extends FormAddAffectationController{
     }
 
 
+    public void generatePDF(ActionEvent actionEvent) throws FileNotFoundException, DocumentException {
+        Affectation selectedAffectation = tableAffectation.getSelectionModel().getSelectedItem();
+        if(selectedAffectation != null) {
+            String title = "D:\\ARRETE/ArretéNumero" + selectedAffectation.getNumAffect() + ".pdf";
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(title));
+            document.open();
+            String civilite = Employe.getEmployeCivilite(selectedAffectation.getNumEmp());
+            String Poste = Employe.getEmployePoste(selectedAffectation.getNumEmp());
+            Paragraph para = new Paragraph("Arrêté n°" + selectedAffectation.getNumAffect() + " du " + selectedAffectation.getDateAffect());
+            Paragraph para2 = new Paragraph(civilite + " " + selectedAffectation.getNom() + " " + selectedAffectation.getPrenoms() + ",qui occupe le poste de " + Poste + " à " + selectedAffectation.getAncienLieu() + ",est affécté à " + selectedAffectation.getNouveauLieu() + " pour compter de la date de prise de service:" + selectedAffectation.getPriseService());
+            Paragraph para3 = new Paragraph("Le présent communiqué sera enregistré et communiqué partout où besoin sera.");
+            para.setAlignment(Element.ALIGN_CENTER);
+            document.add(para);
+            document.add(para2);
+            document.add(para3);
+            document.close();
+            showAlert(Alert.AlertType.INFORMATION, "Opération reussie",  " PDF generer avec succés dans :"+title);
+
+        }
+        else {
+            showAlert(Alert.AlertType.ERROR, "Operation echoué", "Veuillez selectioner une afféctation");
+        }
+    }
 }

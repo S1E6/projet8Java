@@ -59,7 +59,7 @@
                                 <TableColumn fx:id="provinceColumn" prefWidth="295.9999877929688" text="Province" />
                             </columns>
                         </TableView>
-                        <Button fx:id="btnOpenFormAddLieu" layoutX="34.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormAddLieu" prefHeight="36.0" prefWidth="86.0" style="-fx-background-color: green;" text="AJOUTER" textFill="WHITE" />
+                        <Button fx:id="btnOpenFormAddLieu" layoutX="35.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormAddLieu" prefHeight="36.0" prefWidth="86.0" style="-fx-background-color: green;" text="AJOUTER" textFill="WHITE" />
                         <Button fx:id="btnOpenFormUpdateLieu" layoutX="257.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormUpdateLieu" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: blue;" text="MODIFIER" textFill="WHITE" />
                         <TextField fx:id="txtSearchLieu" layoutX="34.0" layoutY="125.0" prefHeight="26.0" prefWidth="181.0" promptText="Désignation" />
                         <Button fx:id="btnOpenFormDeleteLieu" layoutX="480.0" layoutY="42.0" mnemonicParsing="false" onAction="#openFormDeleteLieu" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: red;" text="SUPPRIMER" textFill="WHITE" />
@@ -83,15 +83,16 @@
                                 <TableColumn fx:id="DatePriseServColumn" prefWidth="130.39999999999998" text="Date prise en service" />
                             </columns>
                         </TableView>
-                        <Button fx:id="btnOpenFormUpdateAffectation" layoutX="36.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormUpdateAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: blue;" text="MODIFIER" textFill="WHITE" />
+                        <Button fx:id="btnOpenFormUpdateAffectation" layoutX="257.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormUpdateAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: blue;" text="MODIFIER" textFill="WHITE" />
                         <Label layoutX="34.0" layoutY="108.0" prefHeight="18.0" prefWidth="98.0" text="Date début" />
                         <Label layoutX="140.0" layoutY="108.0" prefHeight="18.0" prefWidth="98.0" text="Date fin" />
                         <Button fx:id="btnSearchTwoDateAffectation" layoutX="259.0" layoutY="121.0" mnemonicParsing="false" onAction="#searchTwoDate" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: orange;" text="RECHERCHE" textFill="WHITE" />
                         <DatePicker id="dateDebut" fx:id="dateDebut" layoutX="34.0" layoutY="127.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: orange;" />
                         <DatePicker id="dateFin" fx:id="dateFin" layoutX="146.0" layoutY="127.0" prefHeight="26.0" prefWidth="105.0" style="-fx-background-color: orange;" />
-                        <Button fx:id="btnOpenFormDeleteAffectation" layoutX="259.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormDeleteAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: RED;" text="SUPPRIMER" textFill="WHITE" />
+                        <Button fx:id="btnOpenFormDeleteAffectation" layoutX="480.0" layoutY="43.0" mnemonicParsing="false" onAction="#openFormDeleteAffectation" prefHeight="34.0" prefWidth="99.0" style="-fx-background-color: RED;" text="SUPPRIMER" textFill="WHITE" />
                   <TextField fx:id="historique" layoutX="696.0" layoutY="142.0" prefHeight="26.0" prefWidth="219.0" promptText=" " />
                   <Label layoutX="697.0" layoutY="124.0" prefHeight="18.0" prefWidth="178.0" text="Historique d' un employé" />
+                  <Button fx:id="btnPDF" layoutX="35.0" layoutY="42.0" mnemonicParsing="false" onAction="#generatePDF" prefHeight="36.0" prefWidth="86.0" style="-fx-background-color: green;" text="PDF" textFill="WHITE" />
                     </children>
                 </AnchorPane>
             </content>
