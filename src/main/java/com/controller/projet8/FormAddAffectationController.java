@@ -22,7 +22,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -80,6 +79,41 @@ public class FormAddAffectationController {
             }
         return c ;
     }
+    public String nomDate(String date){
+        String [] split= date.split("-");
+        String annee = split[0];
+        int mois_int = Integer.parseInt(split[1]);
+        String mois=null;
+        String jour = split[2];
+        System.out.println(jour);
+        if(mois_int==01){
+            mois = " Janvier ";
+        }else if(mois_int==2){
+            mois =" Fevrier ";
+        }else if(mois_int==3){
+            mois =" Mars ";
+        }else if(mois_int==4){
+            mois ="  Avril ";
+        }else if(mois_int==5){
+            mois =" Mai ";
+        }else if(mois_int== 6){
+            mois =" Juin ";
+        }else if(mois_int == 7){
+            mois =" Juillet ";
+        }else if(mois_int == 8){
+            mois =" Aout ";
+        }else if(mois_int == 9){
+            mois =" Septembre ";
+        }else if(mois_int == 10){
+            mois =" Octobre ";
+        }else if(mois_int == 11){
+            mois =" Novembre ";
+        }else if(mois_int == 12){
+            mois =" Décembre ";
+        }
+        String reultat = jour + mois+ annee;
+        return reultat;
+    }
     public void EnvoyeMail(String adresse, String newLieu, LocalDate dateAffect, LocalDate datePrise) {
         String expediteur = "elyse.rafano1844@gmail.com";
         String motDePasse = "zxulcjrbzzzicpla";
@@ -101,7 +135,7 @@ public class FormAddAffectationController {
             message.setFrom(new InternetAddress(expediteur));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(adresse));
             message.setSubject("Affectation");
-            message.setText("Vous êtes affecté à " + newLieu + " le " + dateAffect + " date prise de service: " + datePrise);
+            message.setText("Vous êtes affecté à " + newLieu + " le " +nomDate(dateAffect.toString()) + " date prise de service: " + nomDate(datePrise.toString()));
             Transport.send(message);
             System.out.println("L'e-mail a été envoyé avec succès !");
         } catch (MessagingException e) {

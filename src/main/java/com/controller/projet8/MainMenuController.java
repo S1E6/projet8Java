@@ -17,33 +17,13 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfWriter;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Date;
-import java.util.ResourceBundle;
-
-import java.awt.Desktop;
-import java.io.File;
-import java.io.IOException;
 
 
 public class MainMenuController extends FormAddAffectationController{
@@ -115,6 +95,7 @@ public class MainMenuController extends FormAddAffectationController{
         }
         tableLieu.getItems().setAll(lieux);
     }
+
     public void setTableAffectation(LocalDate debut , LocalDate fin, String rch){
         numAffectColumn.setCellValueFactory(new PropertyValueFactory<>("numAffect"));
         numEmpAffectColumn.setCellValueFactory(new PropertyValueFactory<>("numEmp"));
